@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Match{% endblock %}
+
+{% block scripts %}
+<script>{{ include_file("match_scout.html.js") }}</script>
+{% endblock %}
+
+{% block contents %}
+<h1>Match Scouting</h1>
+
+{{ include_file("fragments/matchScoutForm.html") }}
+
+{% endblock %}

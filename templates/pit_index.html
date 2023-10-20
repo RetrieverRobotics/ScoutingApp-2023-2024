@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Pit{% endblock %}
+{% block scripts %}
+<script>{{ include_file("pit_index.html.js") }}</script>
+{% endblock %}
+{% block contents %}
+<h1>Pit Scouting</h1>
+
+{{ include_file("fragments/teamForm.html") }}
+
+<br>
+<p>Make sure the robot hasn't already been submitted.</p>
+<div id="robots">
+</div>
+<br>
+
+<form id="addRobot">
+    <input id="addRobotTeam" name="team" type="hidden" required/>
+    <table>
+        <tbody>
+            <tr>
+                <td>Image</td>
+                <td><input name="image" type="file" accept="image/png, image/jpeg" required/></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Add Robot</button></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{% endblock %}

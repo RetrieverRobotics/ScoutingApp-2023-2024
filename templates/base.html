@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UMBC Scouting | {% block title %}{% endblock %}</title>
+        <style>
+            button#return-to-confirm {
+                position: fixed;
+                top: 0;
+                right: 0;
+            }
+        </style>
+        {% block styles %}{% endblock %}
+        <script>
+            /**
+            * @param {HTMLFormElement} form
+            * @param {string} name
+            */
+            function setValues(form, name) {
+                const toParse = localStorage.getItem(name);
+                if (toParse == null) return;
+                const data = JSON.parse(toParse);
+                if (data==null) return;
+
+                for (const elm of form.querySelectorAll("input").values())
+                    if(elm.name) 
+                        elm.value = data[elm.name];
+            }
+
+            window.addEventListener("load", () => {
+                const returnButton = document.getElementById("return-to-confirm");
+                if (localStorage.getItem("reached_confirmation") == "true" && !location.pathname.startsWith("/scout/match/confirm"))
+                    returnButton.hidden = false;
+            });
+        </script>
+        {% block scripts %}{% endblock %}
+    </head>
+    <body>
+        {% block contents %}
+        {% endblock %}
+        <button id="return-to-confirm" onclick="location.href='/scout/match/confirm'" hidden>Resume Confirmation</button>
+    </body>
+</html>

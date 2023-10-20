@@ -1,0 +1,34 @@
+<form id="preMatchForm">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <label for="team">Team Number</label>
+                </td>
+                <td><input id="teamPreMatch" name="team" type="text" readonly/></td>
+            </tr>
+            <tr>
+                <td><label for="match">Match Number</label></td>
+                <td><input id="matchPreMatch" name="match" type="number" required /></td>
+            </tr>
+            <tr>
+                <td><label for="robot">Robot</label></td>
+                <td>
+                    <!-- image radio buttons: https://stackoverflow.com/a/17541916 -->
+                    <div id="robotRadios"></div>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="scouter">Scouter Name</label></td>
+                <td><input id="scouterPreMatch" name="scouter" type="text" required></td>
+            </tr>
+            <tr>
+                <td><label for="date">Date</label></td>
+                <td><input id="datePreMatch" name="date" type="date" required></td> <!-- in format yyyy-mm-dd -->
+            </tr>
+            <tr>
+                <td><button type="submit">Start Scouting</button></td>
+            </tr>
+        </tbody>
+    </table>
+</form>

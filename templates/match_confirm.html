@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Submission{% endblock %}
+
+{% block scripts %}
+<script>
+    localStorage.setItem("reached_confirmation", "true");
+
+    /**
+    * @param {HTMLFormElement} form
+    */
+    function setReadOnly(form) {
+        for (const elm of form.querySelectorAll("input").values()) {
+            if (elm.type == "submit")
+                elm.style.display = "none";
+            else
+                elm.readOnly = true;
+        }
+        for (const elm of form.querySelectorAll("button").values()) {
+            if (elm.type == "submit")
+                elm.style.display = "none";
+        }
+        form.onsubmit = (ev) => ev.preventDefault();
+    }
+
+    window.addEventListener("load", () => {
+        const forms = [
+            document.getElementById("preMatchForm"),
+            document.getElementById("matchScoutForm")
+        ];
+        const names = ["PRE_MATCH", "MATCH"];
+
+        //display 'robot' value for preMatchForm
+        const PRE_MATCH = JSON.parse(localStorage.getItem("PRE_MATCH"));
+        const robotLabel = document.createElement("input");
+        robotLabel.id = "selectedRobot";
+        robotLabel.value = `${PRE_MATCH.team}-${PRE_MATCH.robot}`;
+        document.getElementById("robotRadios").appendChild(robotLabel);
+        for (let i = 0; i < forms.length; i++) {
+            setReadOnly(forms[i]);
+            setValues(forms[i], names[i]);
+        }
+    });
+</script>
+{% endblock %}
+
+{% block contents %}
+<h1>Confirm Submission</h1>
+<p>Please confirm your submission before sending.</p>
+
+<h2>Pre-Match</h2>
+{{ include_file("fragments/preMatchForm.html") }}
+
+<p>
+    <button id="editPreMatch" onclick="location.href = '/scout/match/';">Edit</button>
+</p>
+
+<h2>Match</h2>
+{{ include_file("fragments/matchScoutForm.html") }}
+<p>
+    <button id="editMatch" onclick="location.href = '/scout/match/during';">Edit</button>
+</p>
+
+
+<button id="submitMatch">Confirm Submission</button>
+{% endblock %}
