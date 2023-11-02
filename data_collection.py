@@ -19,23 +19,28 @@ def init_sheets_api():
 class ScoutingData(Table):
     "Data on one robot's performance in a match."
     
+    #prematch
     robot = Column("ROBOT", "robot")
     team = Column("TEAM", "team")
     date = Column("DATE", "date")
     match = Column("MATCH", "match")
     scouter = Column("SCOUTER", "scouter")
+    #auto
     goal_scores_auto = Column("GOAL SCORES AUTO")
-    goal_scores = Column("GOAL SCORES")
     moves_auto = Column("MOVES AUTO")
-    moves = Column("MOVES")
     moves_throw_auto = Column("MOVES THROW AUTO")
-    moves_throw = Column("MOVES THROW")
     load_pickup_auto = Column("LOAD PICKUP AUTO")
-    load_pickup = Column("LOAD PICKUP")
     dropped_auto = Column("DROPPED AUTO")
+    #teleop
+    goal_scores = Column("GOAL SCORES")
+    moves = Column("MOVES")
+    moves_throw = Column("MOVES THROW")
+    load_pickup = Column("LOAD PICKUP")
     dropped = Column("DROPPED")
+    #normal
     goal_steals = Column("GOAL STEALS")
     goal_stolen = Column("GOAL STOLEN")
     height = Column("HEIGHT", "height", process_data=lambda ctx: int(ctx.data))
+    #postmatch
     is_win = Column("IS WIN", "TODO", process_data=lambda ctx: ctx.data == "yes")
     comments = Column("COMMENTS", "comments")
