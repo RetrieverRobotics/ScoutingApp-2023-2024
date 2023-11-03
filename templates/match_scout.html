@@ -2,6 +2,10 @@
 
 {% block title %}Match{% endblock %}
 
+{% block styles %}
+<style>{{ include_file("fragments/matchScoutForm.html.css") }}</style>
+{% endblock %}
+
 {% block scripts %}
 <script>{{ include_file("match_scout.html.js") }}</script>
 {% endblock %}

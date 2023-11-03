@@ -1,0 +1,36 @@
+form#matchScoutForm {
+    padding: 0;
+}
+
+div#matchLayout {
+    border: 1px solid #000;
+    width: 50vh;
+    height: fit-content;
+    padding: 0;
+    margin-left: calc(50vw - 26.5vh);
+}
+
+div#matchLayout ul {
+    list-style: none;
+    padding: 0 5px;
+}
+
+#matchScoutForm button {
+    display: block;
+    margin: 0 0 1% 10px;
+    width: calc(100vw - 40px);
+    height: 50px;
+    font-size: 18pt;
+    text-align: center;
+
+}
+
+#matchLayout button {
+    width: 100%;
+    margin: 1% 0;
+}
+
+ul#matchBottomButtons {
+    list-style: none;
+    padding-left: 0;
+}
