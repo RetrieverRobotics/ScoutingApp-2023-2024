@@ -24,6 +24,7 @@
     }
 
     window.addEventListener("load", () => {
+        const submitMatch = document.getElementById("submitMatch");
         const forms = [
             document.getElementById("preMatchForm"),
             document.getElementById("matchScoutForm")
@@ -40,6 +41,27 @@
             setReadOnly(forms[i]);
             setValues(forms[i], names[i]);
         }
+        submitMatch.addEventListener("click", async (ev) => {
+            if (ev.button != 0) return;
+
+            const data = new FormData();
+            data.append("PRE_MATCH", localStorage.getItem("PRE_MATCH") || "null");
+            data.append("MATCH", localStorage.getItem("MATCH") || "null");
+            data.append("POST_MATCH", localStorage.getItem("POST_MATCH") || "null");
+
+            const r = await fetch("/scout/match/submit", {
+                method: "POST",
+                body: data
+            });
+
+            if (r.ok) {
+                localStorage.removeItem("PRE_MATCH");
+                localStorage.removeItem("MATCH");
+                localStorage.removeItem("POST_MATCH");
+                localStorage.removeItem("reached_confirmation");
+                location.href = "/scout/match";
+            }
+        });
     });
 </script>
 {% endblock %}
