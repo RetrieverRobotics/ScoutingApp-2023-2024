@@ -6,6 +6,7 @@ function getNow() {
 }
 
 window.addEventListener("load", () => {
+    const start = getNow();
     const matchScoutForm = document.getElementById("matchScoutForm");
     /** @type {HTMLButtonElement} */
     const matchEndButton = document.getElementById("matchEndButton");
@@ -15,6 +16,7 @@ window.addEventListener("load", () => {
 
         const data = new FormData();
 
+        inputs["start"] = start;
         inputs["end-auto"] = endAuto;
         inputs["end"] = getNow();
 

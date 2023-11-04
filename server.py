@@ -23,7 +23,7 @@ def main():
     pit_scout.init_json()
 
     #init sheets api
-    #data_collection.init_sheets_api() DEBUG
+    data_collection.init_sheets_api()
 
     waitress.serve(app, host="0.0.0.0", port=80, threads=48)
 

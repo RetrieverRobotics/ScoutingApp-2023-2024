@@ -33,7 +33,10 @@ def submit():
     match = json.loads(request.form[MATCH])
     post_match = json.loads(request.form[POST_MATCH])
 
-    row = data_collection.ScoutingData.process_data({**pre_match, **match, **post_match})
+    data = {**pre_match, **match, **post_match}
+    data_collection.prep_data(data)
+    row = data_collection.ScoutingData.process_data(data)
     data_collection.sheets_api.save_to_sheets(row)
+    return "Success", 200
 
     
