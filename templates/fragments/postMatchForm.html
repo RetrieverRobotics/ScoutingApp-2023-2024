@@ -1,13 +1,17 @@
-<form id="matchScoutForm">
+<form id="postMatchScoutForm">
     <table>
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><button type="submit">Submit</button></td>
+                <td><label>Height</label></td>
+                <td><input id="postMatchHeightInput"name="height" type="range" value="0" style="appearance: slider-vertical;"></td>
+                <td><span id="postMatchHeightOutput">Didn&#39;t climb</span></td>
             </tr>
         </tbody>
     </table>
+    <label>Comments</label>
+    <br>
+    <textarea name="comments" rows="20" cols="40"></textarea>
+    <br>
+    <br>
+    <button type="submit">Finish</button>
 </form>
