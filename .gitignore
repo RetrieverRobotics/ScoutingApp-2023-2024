@@ -3,4 +3,5 @@ tests/
 images/
 *.py[cod]
 config.json
+images.json
 token.json
