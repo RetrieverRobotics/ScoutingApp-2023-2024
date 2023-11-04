@@ -34,3 +34,10 @@ ul#matchBottomButtons {
     list-style: none;
     padding-left: 0;
 }
+
+button#matchStealButton {
+    display: none;
+}
+button#matchStolenButton {
+    display: none;
+}
