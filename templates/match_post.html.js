@@ -2,7 +2,7 @@ const HEIGHT_OUTPUT = ["Didn't climb","A","B","C","D","E","F","G","H","I","J"];
 
 
 window.addEventListener("load", () => {
-    const postMatchScoutForm = document.getElementById("postMatchScoutForm");
+    const postMatchScoutForm = document.getElementById("postMatchForm");
     const postMatchHeightInput = document.getElementById("postMatchHeightInput");
     const postMatchHeightOutput = document.getElementById("postMatchHeightOutput");
 

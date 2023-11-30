@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import math
 import os
 import scoutingutil
 from scoutingutil import Column, Table, SheetsService
@@ -11,7 +12,7 @@ START = "start"
 END = "end"
 END_AUTO = "end-auto"
 
-HEIGHT_LEVELS = "ABCDEFGHIJ"
+HEIGHT_LEVELS = ["Didn't climb", *"ABCDEFGHIJ"]
 
 MATCH_INPUT_NAMES = ("score", "move", "launch", "pickup", "dropped",
                     "defend", "steal", "stolen")
@@ -28,10 +29,14 @@ def parse_isodate(dstr:str):
     return datetime.fromisoformat(dstr.replace("Z", "+00:00"))
 
 def prep_data(data:dict[str]):
-    if END_AUTO not in data:
-        new_end = parse_isodate(data[START])+timedelta(seconds=45)
+    data[START] = parse_isodate(data[START])
+    data[END] = parse_isodate(data[END])
+    if data.get(END_AUTO) is None:
+        new_end = data[START]+timedelta(seconds=45)
         #get which one happened earlier (auto cannot end after the match has ended)
-        data[END_AUTO] = min(new_end, parse_isodate(data[END]))
+        data[END_AUTO] = min(new_end, data[END])
+    else:
+        data[END_AUTO] = parse_isodate(data[END_AUTO])
     for name in MATCH_INPUT_NAMES:
         if isinstance(data[name], list):
             data[name] = [parse_isodate(dtstr) for dtstr in data[name] if isinstance(dtstr, str)]
@@ -41,7 +46,7 @@ def prep_data(data:dict[str]):
 def count_auto(ctx:scoutingutil.ProcessingContext):
     if ctx.data is None:
         return
-    end_auto = parse_isodate(ctx.raw[END_AUTO])
+    end_auto = ctx.raw[END_AUTO]
     for dt in ctx.data:
         if dt > end_auto:
             return
@@ -50,7 +55,7 @@ def count_auto(ctx:scoutingutil.ProcessingContext):
 def count_teleop(ctx:scoutingutil.ProcessingContext):
     if ctx.data is None:
         return
-    end_auto = parse_isodate(ctx.raw[END_AUTO])
+    end_auto = ctx.raw[END_AUTO]
     for dt in ctx.data:
         if dt > end_auto:
             yield dt
@@ -82,6 +87,7 @@ class ScoutingData(Table):
     goal_steals = Column("GOAL STEALS", "steal", process_data=lambda ctx: sum(1 for _ in count_teleop(ctx)))
     goal_stolen = Column("GOAL STOLEN", "stolen", process_data=lambda ctx: sum(1 for _ in count_teleop(ctx)))
     #postmatch
-    height = Column("HEIGHT", "height", process_data=lambda ctx: HEIGHT_LEVELS[int(ctx.data)] if str(ctx.data).isdigit() else "")
+    height = Column("HEIGHT", "height", process_data=lambda ctx: HEIGHT_LEVELS[math.ceil(int(ctx.data)/10)] if str(ctx.data).isdigit() else "")
     is_win = Column("IS WIN", "iswin", process_data=lambda ctx: ctx.data == "yes")
     comments = Column("COMMENTS", "comments")
+

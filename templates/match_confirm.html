@@ -14,7 +14,10 @@
             if (elm.type == "submit")
                 elm.style.display = "none";
             else
-                elm.readOnly = true;
+                elm.readOnly = elm.disabled = true;
+        }
+        for (const elm of form.querySelectorAll("textarea").values()) {
+            elm.readOnly = elm.disabled = true;
         }
         for (const elm of form.querySelectorAll("button").values()) {
             if (elm.type == "submit")
@@ -27,9 +30,9 @@
         const submitMatch = document.getElementById("submitMatch");
         const forms = [
             document.getElementById("preMatchForm"),
-            document.getElementById("matchScoutForm")
+            document.getElementById("postMatchForm")
         ];
-        const names = ["PRE_MATCH", "MATCH"];
+        const names = ["PRE_MATCH", "POST_MATCH"];
 
         //display 'robot' value for preMatchForm
         const PRE_MATCH = JSON.parse(localStorage.getItem("PRE_MATCH"));
@@ -37,10 +40,17 @@
         robotLabel.id = "selectedRobot";
         robotLabel.value = `${PRE_MATCH.team}-${PRE_MATCH.robot}`;
         document.getElementById("robotRadios").appendChild(robotLabel);
+
+        //display 'height' value for postMatchForm
+        const POST_MATCH = JSON.parse(localStorage.getItem("POST_MATCH"));
+        const postMatchHeightOutput = document.getElementById("postMatchHeightOutput");
+        postMatchHeightOutput.innerText = ["Didn't climb","A","B","C","D","E","F","G","H","I","J"][Math.ceil(POST_MATCH["height"]/10)];
+
         for (let i = 0; i < forms.length; i++) {
             setReadOnly(forms[i]);
             setValues(forms[i], names[i]);
         }
+
         submitMatch.addEventListener("click", async (ev) => {
             if (ev.button != 0) return;
 
@@ -77,10 +87,10 @@
     <button id="editPreMatch" onclick="location.href = '/scout/match/';">Edit</button>
 </p>
 
-<h2>Match</h2>
-{{ include_file("fragments/matchScoutForm.html") }}
+<h2>Post-Match</h2>
+{{ include_file("fragments/postMatchForm.html") }}
 <p>
-    <button id="editMatch" onclick="location.href = '/scout/match/during';">Edit</button>
+    <button id="editPostMatch" onclick="location.href = '/scout/match/postmatch';">Edit</button>
 </p>
 
 

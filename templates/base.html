@@ -23,15 +23,28 @@
                 const data = JSON.parse(toParse);
                 if (data==null) return;
 
-                for (const elm of form.querySelectorAll("input").values())
-                    if(elm.name) 
+                for (const elm of form.querySelectorAll("input").values()) {
+                    if (elm.type.toLowerCase() == "checkbox")
+                        elm.checked = elm.name in data;
+                    else if (elm.name in data)
+                        elm.value = data[elm.name];
+                }
+                for (const elm of form.querySelectorAll("textarea").values())
+                    if(elm.name in data)
                         elm.value = data[elm.name];
             }
 
             window.addEventListener("load", () => {
                 const returnButton = document.getElementById("return-to-confirm");
-                if (localStorage.getItem("reached_confirmation") == "true" && !location.pathname.startsWith("/scout/match/confirm"))
+                if (localStorage.getItem("reached_confirmation") == "true" && !location.pathname.startsWith("/scout/match/confirm")) {
                     returnButton.hidden = false;
+                    returnButton.addEventListener("click", () => {
+                        const form = document.querySelector("form");
+                        if (form == null) return;
+                        form.dispatchEvent(new CustomEvent('submit', {cancelable: true}));
+                        location.href = "/scout/match/confirm";
+                    });
+                }
             });
         </script>
         {% block scripts %}{% endblock %}
@@ -39,6 +52,6 @@
     <body>
         {% block contents %}
         {% endblock %}
-        <button id="return-to-confirm" onclick="location.href='/scout/match/confirm'" hidden>Resume Confirmation</button>
+        <button id="return-to-confirm" onclick="" hidden>Resume Confirmation</button>
     </body>
 </html>

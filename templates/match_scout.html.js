@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
             matchEndButton.innerText = "End Match";
             changeMatchStyle();
             setTimeout(() => matchEndButton.type = "submit", 100);
-            
+
         }
     });
 
