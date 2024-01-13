@@ -1,22 +1,18 @@
+const HEIGHT_LEVELS = ["Didn't climb", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
 const valMap = {
   //"COLUMN NAME": (any)->number
 
-  //example.py
-  //"TIMESTAMP": (value) => {
-  //  if (typeof value == "string")
-  //    return Number(value.replaceAll("/", ""));
-  //  else { //Date
-  //    const year = value.getFullYear();
-  //    const yearLen = String(value.getFullYear()).length;
-  //    return value.getMonth()*10**(yearLen+2) + value.getDate()*10**yearLen + year;
-  //  }
-  //}
-
-  //test2023.py
-  "DATE": (value) => Number(value.replaceAll("/","")),
-  "CHARGING PAD STATE: AUTO": (value) => value=="docked" ? 1 : value=="engaged" ? 2 : 0,
-  "CHARGING PAD STATE: TELEOP": (value) => value=="docked" ? 1 : value=="engaged" ? 2 : 0
-}
+  "DATE": (value) => {
+    const parts = value.split("-", 3);
+    return Number(parts[0]) * Math.pow(10, String(parts[1]).length + String(parts[2]).length)
+          + Number(parts[1]) * Math.pow(10, String(parts[2]).length)
+          + Number(parts[2]);
+  },
+  "HEIGHT": (value) => HEIGHT_LEVELS.indexOf(value),
+  "IS WIN": (value) => value ? 1 : 0,
+  "COMMENTS": (value) => value.length
+};
 
 /**
  * @param {string} sortBy The column to sort by. (!ID COLUMN)

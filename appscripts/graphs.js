@@ -14,7 +14,7 @@ function graphRange(mode, columnName, column, memberCount) {
   if (!Array.isArray(column))
     return [0];
   if (column.every(v => typeof v[0] == "number" || typeof v[0] == "boolean"))
-    numeric = column;
+    numeric = column.map(v => Number(v[0]));
   else if (columnName in valMap) {
     const m = valMap[columnName];
     numeric = column.map(v => [m(v[0])]);
