@@ -25,7 +25,10 @@ def main():
     #init sheets api
     data_collection.init_sheets_api()
 
-    waitress.serve(app, host="0.0.0.0", port=80, threads=48)
+    try:
+        waitress.serve(app, host="0.0.0.0", port=80, threads=48)
+    finally:
+        match_scout.submissions_file.close()
 
 if __name__ == "__main__":
     main()
