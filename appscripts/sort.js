@@ -1,18 +1,22 @@
-const HEIGHT_LEVELS = ["Didn't climb", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+/**
+ * 
+ * @param {string[][]} columns 
+ * @param {string[][]} mappings
+ */
+function parseValMap(columns, mappings) {
+  //list of rows, but only one row
+  const cols = columns[0];
+  const maps = mappings[0];
 
-const valMap = {
-  //"COLUMN NAME": (any)->number
-
-  "DATE": (value) => {
-    const parts = value.split("-", 3);
-    return Number(parts[0]) * Math.pow(10, String(parts[1]).length + String(parts[2]).length)
-          + Number(parts[1]) * Math.pow(10, String(parts[2]).length)
-          + Number(parts[2]);
-  },
-  "HEIGHT": (value) => HEIGHT_LEVELS.indexOf(value),
-  "IS WIN": (value) => value ? 1 : 0,
-  "COMMENTS": (value) => value.length
-};
+  const valMap = {};
+  for (let i = 0; i < cols.length; i++) {
+    const columnName = cols[i].trim();
+    const mapCode = maps[i].trim();
+    if (mapCode.length == 0) continue;
+    valMap[columnName] = eval(mapCode);
+  }
+  return valMap;
+}
 
 /**
  * @param {string} sortBy The column to sort by. (!ID COLUMN)
@@ -22,8 +26,10 @@ const valMap = {
  * @param {string} limitColumnName
  * @param {string|object} limitMin Set bottom of the limit. ("-" | value)
  * @param {string|object} limitMax Set top of the limit.   ("+" | value)
+ * @param {string[][]} mapping
  */
-function sortUI(sortBy, sortOrder, compressMethod, idColumnName, limitColumnName, limitMin, limitMax, rows, columns) {
+function sortUI(sortBy, sortOrder, compressMethod, idColumnName, limitColumnName, limitMin, limitMax, rows, columns, mapping) {
+  const valMap = parseValMap(columns, mapping);
   const idColumn = columns[0].indexOf(idColumnName);
   let sortColumn = columns[0].indexOf(sortBy);
   if (sortColumn == -1) return `Cannot sort by ${sortBy} column.`;
@@ -31,7 +37,7 @@ function sortUI(sortBy, sortOrder, compressMethod, idColumnName, limitColumnName
   
   if (sortColumn > idColumn) sortColumn--; //adjust for id column being removed from each value in grabbed
   
-  const limited = limitRows(limitColumnName, limitMin, limitMax, rows, columns);
+  const limited = limitRows(limitColumnName, limitMin, limitMax, rows, columns, mapping);
   
   let grabbed;
   switch (compressMethod.toUpperCase()) {
@@ -68,8 +74,10 @@ const LIMIT_MIN = "[-]";
  * @param {string} columnName Limit Column name.
  * @param {object[][]} rows
  * @param {string[][]} columns
+ * @param {string[][]} mapping
  */
-function getLimitRange(columnName, rows, columns) {
+function getLimitRange(columnName, rows, columns, mapping) {
+  const valMap = parseValMap(columns, mapping);
   const limitColumn = columns[0].indexOf(columnName);
   const unique = [];
   let rtv;

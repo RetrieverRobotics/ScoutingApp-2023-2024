@@ -1,11 +1,11 @@
-function individualViewUI(idColumnName, limitColumnName, id, limitMin, limitMax, rows, columns) {
+function individualViewUI(idColumnName, limitColumnName, id, limitMin, limitMax, rows, columns, mappings) {
   if (id == "") return "Enter ID.";
   
   const idColumn = columns[0].indexOf(idColumnName);
   const limitColumn = columns[0].indexOf(limitColumnName);
 
   //limit rows
-  rows = limitRows(limitColumnName, limitMin, limitMax, rows, columns);
+  rows = limitRows(limitColumnName, limitMin, limitMax, rows, columns, mappings);
 
   //grab only rows with matching id, while removing id and limit columns
   const rtv = [];

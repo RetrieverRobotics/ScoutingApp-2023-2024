@@ -3,8 +3,11 @@
  * @param {string} columnName
  * @param {object[][]} column
  * @param {number} memberCount
+ * @param {string[][]} columns
+ * @param {string[][]} mapping
  */
-function graphRange(mode, columnName, column, memberCount) {
+function graphRange(mode, columnName, column, memberCount, columns, mapping) {
+  const valMap = parseValMap(columns, mapping);
   if (mode===undefined || mode===null) mode = "column";
   else mode = mode.toLowerCase();
   if(memberCount===undefined || mode===null) memberCount = 0;
@@ -28,7 +31,7 @@ function graphRange(mode, columnName, column, memberCount) {
 
     for (let g = 0; g<2; g++) {
       const slice = memberCount ? numeric.slice(g*memberCount, (g+1)*memberCount) : numeric;
-      const avg = slice.reduce((p,c) => p+c[0], 0)/slice.length;
+      const avg = slice.length ? slice.reduce((p,c) => p+c[0], 0)/slice.length : 0;
       
       for (const data of slice)
         winloss.push([Math.abs(data[0])* (data[0] < avg ? -1 : data[0] == avg ? 0 : 1)]);

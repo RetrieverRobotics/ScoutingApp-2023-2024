@@ -5,7 +5,7 @@ INDIGRAPH(X1, X3:X)
 ABOUT
 Graph function for Individual View
 FORMULA DEFINITION
-=SPARKLINE(graphRange('Individual View'!$B$4, columnname, FILTER(data, NOT(ISBLANK(data)))), graphOptions(LOWER('Individual View'!$B$4), columnname, Load!$B$4:$4, Load!$B$5:$5))
+=SPARKLINE(graphRange('Individual View'!$B$4, columnname, FILTER(data, NOT(ISBLANK(data))), 0, Load!$B$4:$4, Load!$B$7:$7), graphOptions(LOWER('Individual View'!$B$4), columnname, Load!$B$4:$4, Load!$B$5:$5))
 columnname
 Name of the current column
 data
@@ -18,7 +18,7 @@ MULTIGRAPH(X1, X3:3)
 ABOUT
 Graph function for Multi View
 FORMULA DEFINITION
-=SPARKLINE(graphRange('Multi View'!$B$5, columnname, TRANSPOSE(FILTER(data, NOT(ISBLANK(data)))), 'Multi View'!$B$1), graphOptions(LOWER('Multi View'!$B$5), columnname, Load!$B$4:$4, Load!$B$5:$5))
+=SPARKLINE(graphRange('Multi View'!$B$5, columnname, TRANSPOSE(FILTER(data, NOT(ISBLANK(data)))), 'Multi View'!$B$1, Load!$B$4:$4, Load!$B$7:$7), graphOptions(LOWER('Multi View'!$B$5), columnname, Load!$B$4:$4, Load!$B$5:$5))
 columnname
 Name of the column to create a graph for
 data

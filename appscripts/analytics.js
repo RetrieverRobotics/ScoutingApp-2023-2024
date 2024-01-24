@@ -47,8 +47,10 @@ function grabAll(idColumnName, rows, columns) {
  * @param {string|object} max
  * @param {object[][]} rows
  * @param {string[][]} columns
+ * @param {string[][]} mappings
  */
-function limitRows(columnName, min, max, rows, columns) {
+function limitRows(columnName, min, max, rows, columns, mappings) {
+    const valMap = parseValMap(columns, mappings);
     const limitColumn = columns[0].indexOf(columnName);
     const rtv = [];
 
@@ -121,7 +123,7 @@ function compressAvg(map) {
 }
 
 /**
- * @param {Map<object, object[][]> map The columns per ID to compress.
+ * @param {Map<object, object[][]>} map The columns per ID to compress.
  * @returns {Map<object, object[]>} 
  */
 function compressMax(map) {
@@ -161,7 +163,7 @@ function compressMax(map) {
 }
 
 /**
- * @param {Map<object, object[][]> map The columns per ID to compress.
+ * @param {Map<object, object[][]>} map The columns per ID to compress.
  * @returns {Map<object, object[]>} 
  */
 function compressMin(map) {

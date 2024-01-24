@@ -8,8 +8,9 @@
  * @param {string} limitColumnName
  * @param {object[][]} rows
  * @param {string[][]} columns
+ * @param {string[][]} mapping
  */
-function multiViewUI(members, memberCount, limitMin, limitMax, compressMethod, idColumnName, limitColumnName, rows, columns) {
+function multiViewUI(members, memberCount, limitMin, limitMax, compressMethod, idColumnName, limitColumnName, rows, columns, mapping) {
   const rtv = [];
 
   //trim members
@@ -19,7 +20,7 @@ function multiViewUI(members, memberCount, limitMin, limitMax, compressMethod, i
   if (members.includes("")) return `Expected ${memberCount} members per group (${memberCount*2} total), make sure that all member IDs have been filled.`;
   if ((new Set(members)).size != members.length) return "Member IDs must be unique."
 
-  const limited = limitRows(limitColumnName, limitMin, limitMax, rows, columns);
+  const limited = limitRows(limitColumnName, limitMin, limitMax, rows, columns, mapping);
   
   let grabbed;
   switch (compressMethod.toUpperCase()) {
@@ -56,8 +57,11 @@ function multiViewUI(members, memberCount, limitMin, limitMax, compressMethod, i
  * @param {object[][]} rows
  * @param {string[][]} columns
  * @param {number[][]|string[][]} weights
+ * @param {string[][]} mapping
  */
-function getScore(teamNumber, memberCount, idColumnName, limitColumnName, rows, columns, weights) {
+function getScore(teamNumber, memberCount, idColumnName, limitColumnName, rows, columns, weights, mapping) {
+  const valMap = parseValMap(columns, mapping);
+
   columns = columns[0];
   weights = weights[0];
 

@@ -1,4 +1,4 @@
-const loadedNames = ["COLUMNS", "CONNOTATIONS", "WEIGHTS"];
+const loadedNames = ["COLUMNS", "CONNOTATIONS", "WEIGHTS", "MAPPING"];
 
 
 /**
