@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import math
 import os
 import scoutingutil
-from scoutingutil import Column, Table, SheetsService
+from scoutingutil import Column, configs, Table, SheetsService
 from typing import Generator
 
 PRE_MATCH = "PRE_MATCH"
@@ -27,7 +27,15 @@ def init_sheets_api():
     if not os.path.isfile(scoutingutil.configs.CONFIG_PATH):
         raise FileNotFoundError("Must create a config.json file to read from.")
     cnfg = scoutingutil.configs.load()
-    sheets_api.config(cnfg)
+    try:
+        sheets_api.config(cnfg)
+    except Exception as e:
+        token_path = os.path.abspath(cnfg.get(configs.SHEETS_TOKEN_PATH, "token.json"))
+        if os.path.isfile(token_path):
+            os.remove(token_path)
+            sheets_api.config(cnfg)
+        else:
+            raise
 
 def parse_isodate(dstr:str):
     return datetime.fromisoformat(dstr.replace("Z", "+00:00"))
