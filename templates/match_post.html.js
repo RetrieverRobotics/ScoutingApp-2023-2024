@@ -1,5 +1,6 @@
 const HEIGHT_OUTPUT = ["Didn't climb","A","B","C","D","E","F","G","H","I","J"];
 
+NEXT_DESTINATION = "/scout/match/confirm";
 
 window.addEventListener("load", () => {
     const postMatchScoutForm = document.getElementById("postMatchForm");
@@ -20,7 +21,7 @@ window.addEventListener("load", () => {
             toStore[key] = data.get(key);
 
         localStorage.setItem("POST_MATCH", JSON.stringify(toStore));
-        location.href = "/scout/match/confirm";
+        location.href = NEXT_DESTINATION;
     });
 
     postMatchHeightInput.addEventListener("input", () => {

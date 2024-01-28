@@ -1,3 +1,5 @@
+NEXT_DESTINATION = "/scout/match/during";
+
 window.addEventListener("load", () => {
     const teamForm = document.getElementById("teamForm");
     const preMatchForm = document.getElementById("preMatchForm");
@@ -40,7 +42,7 @@ window.addEventListener("load", () => {
             toStore[key] = data.get(key);
 
         localStorage.setItem("PRE_MATCH", JSON.stringify(toStore));
-        location.href = "/scout/match/during";
+        location.href = NEXT_DESTINATION;
     });
 
     setValues(preMatchForm, "PRE_MATCH");

@@ -1,6 +1,8 @@
 let endAuto = null;
 const inputs = {};
 
+NEXT_DESTINATION = "/scout/match/postmatch";
+
 function getNow() {
     return (new Date()).toISOString();
 }
@@ -14,14 +16,12 @@ window.addEventListener("load", () => {
     matchScoutForm.addEventListener("submit", (ev) => {
         ev.preventDefault();
 
-        const data = new FormData();
-
         inputs["start"] = start;
         inputs["end-auto"] = endAuto;
         inputs["end"] = getNow();
 
         localStorage.setItem("MATCH", JSON.stringify(inputs));
-        location.href = "/scout/match/postmatch";
+        location.href = NEXT_DESTINATION;
     });
 
     matchEndButton.addEventListener("click", (ev) => {
