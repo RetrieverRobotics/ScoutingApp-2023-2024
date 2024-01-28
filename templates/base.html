@@ -5,14 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>UMBC Scouting | {% block title %}{% endblock %}</title>
         <style>
-            button#return-to-confirm {
-                position: fixed;
-                top: 0;
-                right: 0;
-            }
+            {{ include_file("base.html.css") }}
         </style>
         {% block styles %}{% endblock %}
         <script>
+            var NEXT_DESTINATION = null;
+
             /**
             * @param {HTMLFormElement} form
             * @param {string} name
@@ -38,11 +36,14 @@
                 const returnButton = document.getElementById("return-to-confirm");
                 if (localStorage.getItem("reached_confirmation") == "true" && !location.pathname.startsWith("/scout/match/confirm")) {
                     returnButton.hidden = false;
-                    returnButton.addEventListener("click", () => {
-                        const form = document.querySelector("form");
+                    returnButton.addEventListener("click", (e) => {
+                        const form = document.querySelector("form.confirmable");
                         if (form == null) return;
-                        form.dispatchEvent(new CustomEvent('submit', {cancelable: true}));
-                        location.href = "/scout/match/confirm";
+                        e.preventDefault();
+
+                        NEXT_DESTINATION = "/scout/match/confirm";
+                        //cite: https://www.beflagrant.com/blog/til-how-to-properly-dispatch-a-submit-event
+                        form.dispatchEvent(new Event("submit", {bubbles:true, cancelable:true}));
                     });
                 }
             });

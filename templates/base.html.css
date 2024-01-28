@@ -1,0 +1,41 @@
+html {
+    --color-bg: #333;
+    --color-text: #eee;
+    --button-color-bg: 235, 204, 64;
+    --button-color-border: 170, 153, 17;
+}
+
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: monospace;
+}
+
+hr {
+    color: var(--color-bg);
+}
+
+button {
+    min-width: 100px;
+    min-height: 25px;
+    background-color: rgb(var(--button-color-bg));
+    font-weight: bold;
+    border-color: rgb(var(--button-color-border));
+    border-style: solid;
+}
+
+/* cite: https://stackoverflow.com/a/65297702 */
+
+button:active {
+    background-color: rgba(var(--button-color-bg), 0.4);
+    border-color: rgba(var(--button-color-border), 0.4);
+    transform: translate(0, 2px);
+}
+
+button#return-to-confirm {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
