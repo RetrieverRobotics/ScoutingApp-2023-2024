@@ -107,7 +107,7 @@ class ScoutingData(Table):
     "Data on one robot's performance in a match."
     
     #prematch
-    robot = Column("ROBOT", "robot")
+    robot = Column("ROBOT", "robot", lambda ctx: f"{ctx.raw['team']}-{ctx.data}")
     team = Column("TEAM", "team")
     date = Column("DATE", "date")
     match = Column("MATCH", "match", process_data=lambda ctx: int(ctx.data), strict=True)
