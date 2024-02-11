@@ -2,6 +2,16 @@ form#matchScoutForm {
     padding: 0;
 }
 
+form#matchScoutForm button {
+    display: block;
+    margin: 0 0 1% 10px;
+    width: calc(100vw - 40px);
+    height: 50px;
+    font-size: 18pt;
+    text-align: center;
+
+}
+
 div#matchLayout {
     border: 1px solid #000;
     width: 50vh;
@@ -15,17 +25,7 @@ div#matchLayout ul {
     padding: 0 5px;
 }
 
-#matchScoutForm button {
-    display: block;
-    margin: 0 0 1% 10px;
-    width: calc(100vw - 40px);
-    height: 50px;
-    font-size: 18pt;
-    text-align: center;
-
-}
-
-#matchLayout button {
+div#matchLayout button {
     width: 100%;
     margin: 1% 0;
 }
@@ -35,9 +35,6 @@ ul#matchBottomButtons {
     padding-left: 0;
 }
 
-button#matchStealButton {
-    display: none;
-}
-button#matchStolenButton {
-    display: none;
+.input-hide {
+    display: none !important;
 }

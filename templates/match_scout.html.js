@@ -39,12 +39,9 @@ window.addEventListener("load", () => {
 });
 
 function changeMatchStyle() {
-    //TODO change element colors so that change in mode is more clear
-    const matchStealButton = document.getElementById("matchStealButton");
-    const matchStolenButton = document.getElementById("matchStolenButton");
-
-    matchStealButton.style.display = "block";
-    matchStolenButton.style.display = "block";
+    document.querySelectorAll(".toggle-visibility").forEach((elm) => {
+        elm.classList.toggle("input-hide");
+    });
 }
 
 function initInputs() {
