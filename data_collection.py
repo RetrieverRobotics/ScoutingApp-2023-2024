@@ -90,9 +90,14 @@ def prep_data(data:dict[str]):
         current = dt
         deltas.append(delta)
 
-    data[LAUNCH_FASTEST] = fast_delta
-    data[LAUNCH_SLOWEST] = slow_delta
-    data[LAUNCH_AVERAGE] = sum(deltas)/len(deltas)
+    if deltas:
+        data[LAUNCH_FASTEST] = fast_delta
+        data[LAUNCH_SLOWEST] = slow_delta
+        data[LAUNCH_AVERAGE] = (sum(deltas)/len(deltas)) if deltas else 0
+    else:
+        data[LAUNCH_FASTEST] = None
+        data[LAUNCH_SLOWEST] = None
+        data[LAUNCH_AVERAGE] = None
 
 
 #data processing functions
