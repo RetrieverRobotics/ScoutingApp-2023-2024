@@ -90,4 +90,20 @@ function setRobots(team, names) {
         wrapper.appendChild(image);
         robotRadios.appendChild(wrapper);
     }
+
+    //final option: robot not listed
+    const fwrapper = document.createElement("p");
+    const flabel = document.createElement("label")
+    const fradio = document.createElement("input");
+
+    flabel.innerText = "Robot not listed / Unsure (explain in comments)";
+
+    fradio.type = "radio";
+    fradio.name = "robot";
+    fradio.value = "?"
+    fradio.required = true;
+
+    fwrapper.appendChild(fradio);
+    fwrapper.appendChild(flabel);
+    robotRadios.appendChild(fwrapper);
 }
