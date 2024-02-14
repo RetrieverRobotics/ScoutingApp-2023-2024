@@ -46,10 +46,28 @@ function changeMatchStyle() {
 
 function initInputs() {
     document.querySelectorAll(".scout-input").forEach((elm) => {
-        const key = elm.innerText.toLowerCase();
-        inputs[key] = [];
-        elm.addEventListener("click", () => {
-            inputs[key].push(getNow());
-        });
+        if (elm.type == "checkbox") {
+            /** @type {string} */
+            const key = elm.name;
+            inputs[key] = false;
+
+            elm.addEventListener("input", () => {
+                inputs[key] = elm.checked;
+                console.log("input");
+            });
+
+            elm.parentElement.addEventListener("click", (ev) => {
+                if (ev.target == elm || ev.button != 0) return;
+                elm.checked = !elm.checked;
+                console.log("click")
+            })
+        }
+        else {
+            const key = elm.innerText.toLowerCase();
+            inputs[key] = [];
+            elm.addEventListener("click", () => {
+                inputs[key].push(getNow());
+            });
+        }
     });
 }

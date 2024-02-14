@@ -15,11 +15,19 @@ END_AUTO = "end-auto"
 LAUNCH_FASTEST = "launch-fastest"
 LAUNCH_SLOWEST = "launch-slowest"
 LAUNCH_AVERAGE = "launch-average"
+MOVES_FASTEST = "move-fastest"
+MOVES_SLOWEST = "move-slowest"
+MOVES_AVERAGE = "move-average"
 
 HEIGHT_LEVELS = ["Didn't climb", *"ABCDEFGHIJ"]
 
 MATCH_INPUT_NAMES = ("score", "move", "launch", "pickup", "dropped",
                     "defend", "steal", "stolen")
+
+MATCH_INPUT_DELTA_NAMES = {
+    "move":(MOVES_FASTEST, MOVES_SLOWEST, MOVES_AVERAGE),
+    "launch":(LAUNCH_FASTEST, LAUNCH_SLOWEST, LAUNCH_AVERAGE)
+}
 
 sheets_api = SheetsService()
 
@@ -29,7 +37,7 @@ def init_sheets_api():
     cnfg = scoutingutil.configs.load()
     try:
         sheets_api.config(cnfg)
-    except Exception as e:
+    except:
         token_path = os.path.abspath(cnfg.get(configs.SHEETS_TOKEN_PATH, "token.json"))
         if os.path.isfile(token_path):
             os.remove(token_path)
@@ -75,29 +83,28 @@ def prep_data(data:dict[str]):
 
     #calculate launch timings
 
-    dts:Generator[datetime, None, None] = iter_teleop(data["launch"], data)
-    deltas = []
-    fast_delta = float("inf") #min
-    slow_delta = 0 #max
-    current:datetime = data[END_AUTO]
+    for deltaname, (fastname, slowname, avgname) in MATCH_INPUT_DELTA_NAMES.items():
+        dts:Generator[datetime, None, None] = iter_teleop(data[deltaname], data)
+        deltas = []
+        fast_delta = float("inf") #min
+        slow_delta = 0 #max
+        current:datetime = data[END_AUTO]
 
-    for dt in dts:
-        delta = (dt-current).total_seconds()
-        if delta < fast_delta:
-            fast_delta = delta
-        if delta > slow_delta:
-            slow_delta = delta
-        current = dt
-        deltas.append(delta)
+        for dt in dts:
+            delta = (dt-current).total_seconds()
+            if delta < fast_delta:
+                fast_delta = delta
+            if delta > slow_delta:
+                slow_delta = delta
+            current = dt
+            deltas.append(delta)
 
-    if deltas:
-        data[LAUNCH_FASTEST] = fast_delta
-        data[LAUNCH_SLOWEST] = slow_delta
-        data[LAUNCH_AVERAGE] = (sum(deltas)/len(deltas)) if deltas else 0
-    else:
-        data[LAUNCH_FASTEST] = None
-        data[LAUNCH_SLOWEST] = None
-        data[LAUNCH_AVERAGE] = None
+        if deltas:
+            data[fastname] = fast_delta
+            data[slowname] = slow_delta
+            data[avgname] = (sum(deltas)/len(deltas)) if deltas else 0
+        else:
+            data[fastname] = data[slowname] = data[avgname] = None
 
 
 #data processing functions
@@ -119,14 +126,18 @@ class ScoutingData(Table):
     scouter = Column("SCOUTER", "scouter")
     #auto
     goal_scores_auto = Column("GOAL SCORES AUTO", "score", process_data=count_column_auto)
-    moves_auto = Column("MOVES AUTO", "move", process_data=count_column_auto)
+    #moves_auto = Column("MOVES AUTO", "move", process_data=count_column_auto)
     moves_throw_auto = Column("LAUNCHES AUTO", "launch", process_data=count_column_auto)
     load_pickup_auto = Column("LOAD PICKUP AUTO", "pickup", process_data=count_column_auto)
     dropped_auto = Column("DROPPED AUTO", "dropped", process_data=count_column_auto)
     defends_auto = Column("DEFENDS AUTO", "defend", process_data=count_column_auto)
+    elevation_bar = Column("ELEVATION BAR", "elevation-bar")
     #teleop
     goal_scores = Column("GOAL SCORES", "score", process_data=count_column_teleop)
     moves = Column("MOVES", "move", process_data=count_column_teleop)
+    moves_fastest = Column("MOVES FASTEST", MOVES_FASTEST)
+    moves_slowest = Column("MOVES SLOWEST", MOVES_SLOWEST)
+    moves_average = Column("MOVES AVERAGE", MOVES_AVERAGE)
     launches = Column("LAUNCHES", "launch", process_data=count_column_teleop)
     launch_fastest = Column("LAUNCH FASTEST", LAUNCH_FASTEST)
     launch_slowest = Column("LAUNCH SLOWEST", LAUNCH_SLOWEST)
