@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
 
         const data = new FormData(teamForm);
         
-        const urlStr = `${location.protocol}//${location.origin}/scout/pit/get/robots`;
+        const urlStr = `${location.origin}/scout/pit/get/robots`;
         const url = new URL(urlStr);
         url.searchParams.set("team", data.get("team"));
 
@@ -54,7 +54,7 @@ function setRobots(team, names) {
 
         label.innerText = `${team}-${name}`;
 
-        const urlStr = `${location.protocol}//${location.origin}/scout/pit/get/image`;
+        const urlStr = `${location.origin}/scout/pit/get/image`;
         const url = new URL(urlStr);
         url.searchParams.set("team", team);
         url.searchParams.set("designation", name);
