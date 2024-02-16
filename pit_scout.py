@@ -57,12 +57,18 @@ def create_id():
 def index():
     return render_template("pit_index.html")
 
+@bp.get("/view")
+def view():
+    with open(JSON_PATH) as f:
+        data:dict[str, dict[str, str]] = json.load(f)
+    return render_template("pit_view.html", teams=data)
+
 @bp.post("/submit")
 def submit():
     if "team" not in request.form or "image" not in request.files:
         abort(400, "Make sure that request has field 'team' and has file 'image'.")
     
-    team = request.form["team"]
+    team = request.form["team"].strip().upper()
     team_des = get_team_designations(team)
     if team_des is None:
         designation = "A"

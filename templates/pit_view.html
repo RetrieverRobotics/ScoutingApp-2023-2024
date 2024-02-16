@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Pit View{% endblock %}
+{% block styles %}
+<style>
+    #teamList img {
+        max-width: 100px;
+        width: auto;
+    }
+
+    #teamList ul {
+        list-style: none;
+    }
+
+    .team-length-good {
+        color: green
+    }
+
+    .team-length-bad {
+        color: red;
+    }
+
+</style>
+{% endblock %}
+{% block scripts %}
+<script>{{ include_file("pit_index.html.js") }}</script>
+{% endblock %}
+{% block contents %}
+<h1>Pit Submissions</h1>
+
+<ul id="teamList">
+    {% for team, designations in teams.items() %}
+    <li>
+        <span>{{ team }}</span>&emsp;
+        (<span
+            {% if designations|length > 1 %}
+                class="team-length-good"
+            {% else %}
+                class="team-length-bad"
+            {% endif %}
+        >{{ designations|length }}</span>)
+        <ul>
+            {% for designation in designations %}
+            <li>
+                <span>{{team}}-{{designation}}</span>
+                <img src="{{request.host_url}}/scout/pit/get/image?team={{team}}&designation={{designation}}"/>
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
