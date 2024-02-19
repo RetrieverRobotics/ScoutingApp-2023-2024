@@ -15,9 +15,9 @@ END_AUTO = "end-auto"
 LAUNCH_FASTEST = "launch-fastest"
 LAUNCH_SLOWEST = "launch-slowest"
 LAUNCH_AVERAGE = "launch-average"
-MOVES_FASTEST = "move-fastest"
-MOVES_SLOWEST = "move-slowest"
-MOVES_AVERAGE = "move-average"
+GOAL_SCORES_FASTEST = "score-fastest"
+GOAL_SCORES_SLOWEST = "score-slowest"
+GOAL_SCORES_AVERAGE = "score-average"
 
 HEIGHT_LEVELS = ["Didn't climb", *"ABCDEFGHIJ"]
 
@@ -25,7 +25,7 @@ MATCH_INPUT_NAMES = ("score", "move", "launch", "pickup", "dropped",
                     "defend", "steal", "stolen")
 
 MATCH_INPUT_DELTA_NAMES = {
-    "move":(MOVES_FASTEST, MOVES_SLOWEST, MOVES_AVERAGE),
+    "score":(GOAL_SCORES_FASTEST, GOAL_SCORES_SLOWEST, GOAL_SCORES_AVERAGE),
     "launch":(LAUNCH_FASTEST, LAUNCH_SLOWEST, LAUNCH_AVERAGE)
 }
 
@@ -134,10 +134,10 @@ class ScoutingData(Table):
     elevation_bar = Column("ELEVATION BAR", "elevation-bar")
     #teleop
     goal_scores = Column("GOAL SCORES", "score", process_data=count_column_teleop)
+    goal_scores_fastest = Column("GOAL SCORES FASTEST", GOAL_SCORES_FASTEST)
+    goal_scores_slowest = Column("GOAL SCORES SLOWEST", GOAL_SCORES_SLOWEST)
+    goal_scores_average = Column("GOAL SCORES AVERAGE", GOAL_SCORES_AVERAGE)
     moves = Column("MOVES", "move", process_data=count_column_teleop)
-    moves_fastest = Column("MOVES FASTEST", MOVES_FASTEST)
-    moves_slowest = Column("MOVES SLOWEST", MOVES_SLOWEST)
-    moves_average = Column("MOVES AVERAGE", MOVES_AVERAGE)
     launches = Column("LAUNCHES", "launch", process_data=count_column_teleop)
     launch_fastest = Column("LAUNCH FASTEST", LAUNCH_FASTEST)
     launch_slowest = Column("LAUNCH SLOWEST", LAUNCH_SLOWEST)
